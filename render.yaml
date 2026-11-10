@@ -1,12 +1,10 @@
 services:
   - type: web
     name: bg-remover-studio-api
-    env: python
+    runtime: python
     rootDir: backend
     plan: free
-    buildCommand: |
-      pip install --upgrade pip
-      pip install -r requirements.txt
+    buildCommand: pip install -r requirements.txt
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: CUTOUT_DATA_DIR
@@ -20,11 +18,9 @@ services:
       - key: GUEST_MAX_DIMENSION
         value: "1024"
       - key: MAX_CONCURRENT_JOBS
-        value: "2"
+        value: "1"
       - key: FRONTEND_ORIGINS
-        value: https://your-vercel-app.vercel.app
-      - key: FRONTEND_URL
-        value: https://your-vercel-app.vercel.app
+        value: "*"
       - key: LOG_LEVEL
         value: INFO
       - key: PBKDF2_ITERATIONS
@@ -33,15 +29,19 @@ services:
         value: "30"
       - key: CUTOUT_DEV_BILLING
         value: "true"
-      - key: STRIPE_SECRET_KEY
-        value: ""
-      - key: STRIPE_WEBHOOK_SECRET
-        value: ""
-      - key: STRIPE_PRICE_PRO_MONTHLY
-        value: ""
-      - key: STRIPE_PRICE_PRO_YEARLY
-        value: ""
-      - key: STRIPE_PRICE_BUSINESS_MONTHLY
-        value: ""
-      - key: STRIPE_PRICE_BUSINESS_YEARLY
-        value: ""
+
+  - type: static
+    name: bg-remover-studio
+    rootDir: frontend
+    buildCommand: npm ci && VITE_API_URL="https://${BACKEND_HOST}" npm run build
+    staticPublishPath: dist
+    buildFilter:
+      paths:
+        - frontend/**
+        - render.yaml
+    envVars:
+      - key: BACKEND_HOST
+        fromService:
+          type: web
+          name: bg-remover-studio-api
+          property: host
