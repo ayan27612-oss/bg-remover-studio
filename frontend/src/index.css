@@ -1,0 +1,125 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --page: 250 250 249;
+  --panel: 255 255 255;
+  --panel2: 244 244 243;
+  --ink: 24 24 27;
+  --muted: 113 113 122;
+  --line: 229 229 227;
+  --accent: 24 24 27;
+  --on-accent: 250 250 249;
+  --checker-a: 247 247 246;
+  --checker-b: 231 231 229;
+  color-scheme: light;
+}
+
+.dark {
+  --page: 9 9 11;
+  --panel: 17 17 19;
+  --panel2: 24 24 27;
+  --ink: 250 250 250;
+  --muted: 161 161 170;
+  --line: 39 39 42;
+  --accent: 250 250 250;
+  --on-accent: 9 9 11;
+  --checker-a: 22 22 24;
+  --checker-b: 34 34 37;
+  color-scheme: dark;
+}
+
+@layer base {
+  * {
+    @apply border-line;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scrollbar-gutter: stable;
+  }
+
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+
+  body {
+    @apply bg-page font-sans text-ink antialiased;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background: rgb(var(--ink) / 0.14);
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex select-none items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ink/25 disabled:cursor-not-allowed disabled:opacity-40;
+  }
+
+  .btn-primary {
+    @apply btn bg-accent text-on-accent hover:opacity-90;
+  }
+
+  .btn-secondary {
+    @apply btn border border-line bg-panel text-ink hover:bg-panel2;
+  }
+
+  .icon-btn {
+    @apply inline-flex h-9 w-9 items-center justify-center rounded-full border border-line bg-panel text-ink transition-colors hover:bg-panel2 focus:outline-none focus-visible:ring-2 focus-visible:ring-ink/25 disabled:cursor-not-allowed disabled:opacity-40;
+  }
+
+  .checker {
+    background-color: rgb(var(--checker-a));
+    background-image:
+      linear-gradient(45deg, rgb(var(--checker-b)) 25%, transparent 25%),
+      linear-gradient(-45deg, rgb(var(--checker-b)) 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, rgb(var(--checker-b)) 75%),
+      linear-gradient(-45deg, transparent 75%, rgb(var(--checker-b)) 75%);
+    background-size: 20px 20px;
+    background-position:
+      0 0,
+      0 10px,
+      10px -10px,
+      -10px 0;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--muted) / 0.28);
+  border-radius: 999px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--muted) / 0.45);
+  background-clip: content-box;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,29 @@
+# dependencies
+node_modules/
+.venv/
+__pycache__/
+*.py[cod]
+
+# builds
+dist/
+*.tsbuildinfo
+
+# runtime data
+backend/data/
+*.db
+*.db-wal
+*.db-shm
+
+# tooling caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# local config and logs
+.env
+.env.*
+!.env.example
+*.log
+
+# editor / OS
+.DS_Store
