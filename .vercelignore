@@ -1,0 +1,9 @@
+# The FastAPI/rembg backend is too large for Vercel Functions; deploy it separately.
+backend/
+
+# Exclude local Python artifacts and data if present.
+**/__pycache__/
+**/*.py[cod]
+**/.venv/
+**/venv/
+**/data/
